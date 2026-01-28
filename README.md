@@ -86,3 +86,8 @@ EDA is conducted to establish a clear understanding of the dataset and guide mod
 ## TOOLS
 - Python (Pandas, Scikit-learn, Matplotlib, Seaborn)
 - Jupyter Notebook
+
+> **Note**
+> 
+> This project was developed as a final course project in collaboration with three teammates
+
