@@ -1,29 +1,88 @@
-# ĐỒ ÁN CUỐI KỲ – MACHINE LEARNING  
-## **Đề tài:** Thuật toán CART (Classification and Regression Tree)  
-**Giảng viên hướng dẫn:** Thầy **Nguyễn An Tế**  
+## PROJECT OVERVIEW
 
----
+This project applies CART (Classification and Regression Trees) to analyze and predict Airbnb housing prices using a real-world Airbnb dataset. The study is designed as a comprehensive end-to-end machine learning pipeline, covering EDA, preprocessing, feature engineering, model tuning, and model comparison.
 
-## **Thành viên nhóm**
+The project is formulated into two related tasks:
 
-| STT | Mã số sinh viên | Họ và tên | Ghi chú | Mức độ hoàn thành |
-|-----|------------------|------------|----------|--------------------|
-| 1 | 31231020894 | **Huỳnh Thụy Mai Nguyên** | Thành viên | 100% |
-| 2 | 33231020124 | **Nguyễn Thùy Yến Nhi** | Thành viên | 100% |
-| 3 | 31221024738 | **Nguyễn Hoài Phú** | Thành viên | 100% |
-| 4 | 31231021273 | **Hồ Ngọc Như Quỳnh** | Thành viên | 100% |
+- Regression: Predicting the continuous housing price
+- Classification: Predicting whether a listing belongs to a high-price or low-price segment
 
----
+## EDA
 
-## **Giới thiệu đề tài**
+EDA is conducted to establish a clear understanding of the dataset and guide modeling decisions:
 
-Đề tài tập trung nghiên cứu và triển khai **thuật toán CART (Classification and Regression Tree)** - một trong những thuật toán cây quyết định phổ biến trong **Machine Learning**.  
-CART có khả năng xử lý cả **bài toán phân lớp (Classification)** và **hồi quy (Regression)**, nhờ vào việc chia dữ liệu theo **Gini Index** (cho phân lớp) hoặc **Mean Squared Error (MSE)** (cho hồi quy).
+- Distribution analysis
+- Detection of skewness and extreme outliers
+- Missing value analysis
 
-Nhóm áp dụng thuật toán này trên **bộ dữ liệu Airbnb tại thành phố Paris (Pháp)**, nhằm:
+## REGRESSION MODELING
 
-- Khai thác và hiểu rõ đặc trưng dữ liệu thực tế trong lĩnh vực dịch vụ lưu trú.  
-- Dự đoán **phân khúc giá cho thuê (price group)** của căn hộ dựa trên các yếu tố như vị trí, loại phòng, điểm đánh giá, số lượng khách, độ sạch sẽ, v.v.  
-- Phân tích **ưu – nhược điểm của CART** trong bối cảnh dữ liệu thực tế.
+***1. Preprocessing***
+- Outlier handling using Winsorization
+- Feature engineering: Creation of Cartesian coordinate features from latitude and longitude
+- Skewness correction: Box-Cox transformation, Yeo-Johnson transformation
 
-## Link Colab: [https://drive.google.com/drive/folders/1-ZzCaqgaHb29SDoodTVFd2VE_OivzQeC?usp=drive_link](https://drive.google.com/drive/folders/1-ZzCaqgaHb29SDoodTVFd2VE_OivzQeC?usp=drive_link)
+***2. Univarite Tree***
+- Trained regression trees using individual features
+- Hyperparameter tuning performed with:
+  + RandomizedSearchCV
+  + GridSearchCV
+- Models evaluated using regression performance metrics: MAE/MSE/R-squared
+- Best R-squared: 65%
+
+***3. Multivariate Tree***
+- Three weighting strategies:
+
+  + Target Correlation Weighting: Features weighted based on correlation strength with the target variable
+  + Feature Importance Weighting: Weights derived from feature importance scores
+  + OLS-based Weighting: Linear regression coefficients used as feature weights
+
+- Each weighting strategy is used to:
+  + Construct composite features
+  + Train multivariate CART models
+  + Compare performance against univariate CART
+
+- Best R-squared:
+  + Target Correlation Weighting: 64.5%
+  + Feature Importance Weighting: 64.6%
+  + OLS-based Weighting: 64.6%
+
+## CLASSIFICATION MODELING
+
+***1. Preprocessing***
+- Feature engineering: Creation of Cartesian coordinate features from latitude and longitude
+- Skewness correction: Box-Cox transformation, Yeo-Johnson transformation
+
+***2. Univarite Tree***
+- GridSearchCV used to identify optimal hyperparameters
+- Tree pruning applied to control overfitting
+- Models evaluated using classification performance metrics: accuracy, precsion, recall, F1-score
+- Best Accuracy: 81%
+
+***3. Multivariate Tree***
+- Three weighting strategies:
+
+  + Target Correlation Weighting: Features weighted based on correlation strength with the target variable
+  + Feature Importance Weighting: Weights derived from feature importance scores
+  + OLS-based Weighting: Linear regression coefficients used as feature weights
+
+- Each weighting strategy is used to:
+  + Construct composite features
+  + Train multivariate CART models
+  + Compare performance against univariate CART
+
+- Best Accuracy
+  + Target Correlation Weighting: 88%
+  + Feature Importance Weighting: 89.4%
+  + OLS-based Weighting: 91.7%
+
+ ## MODEL COMPARISON
+
+ A comprehensive comparison is conducted across CART, ID3 and C4.5
+
+- Regression: CART performs best among all tree-based models
+- Classification: ID3 outperforms CART and C4.5
+
+## TOOLS
+- Python (Pandas, Scikit-learn, Matplotlib, Seaborn)
+- Jupyter Notebook
